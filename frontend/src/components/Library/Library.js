@@ -6,16 +6,20 @@ const Library = ({ library, removeTrack }) => {
     const tracksRendered = library.map(track => {
         const { id, name } = track;
 
-        return <div key={id}>
-            {name}
-            <button className="ui negative icon button" onClick={() => removeTrack(track)}>
-                <i className="minus icon" />
-            </button>
-        </div>
+        return (
+            <div key={id}>
+                <div className="title">
+                {name}
+                {/*<button className="ui negative icon button" onClick={() => removeTrack(track)}>
+                    <i className="minus icon" />
+                </button>*/}
+                </div>
+            </div>
+        )
     })
 
     return (
-        <div>
+        <div className="ui styled accordion">
             {tracksRendered}
         </div>
     );
