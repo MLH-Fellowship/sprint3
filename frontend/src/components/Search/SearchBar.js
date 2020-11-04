@@ -12,7 +12,7 @@ const SearchBar = ({ search }) => {
         // run search function
         search(searchTerm);
         // reset search term to empty string
-        setSearchTerm('');
+        //setSearchTerm('');
     }
 
     return (
