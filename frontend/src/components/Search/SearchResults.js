@@ -1,36 +1,54 @@
 import React from 'react';
+import '../../styles/searchresult.css';
 
 const SearchResults = ({ searchResults }) => {
-
     console.log(searchResults[0]);
     // loop through search results (arrary)
+
+    // component styles
+    const searchResultStyles = {
+        songCard: {
+            backgroundColor: '#191414',
+        },
+        songContent: {
+            color: '#ffffff',
+            margin: '10px 0px 10px 5px',
+        },
+        songMeta: {
+            color: '#beb8b8',
+            margin: '0px 0px 5px 5px',
+        },
+        songButton: {
+            backgroundColor: '#1db954',
+            color: '#ffffff',
+        },
+    };
+
     const resultsRendered = searchResults.map(result => {
-        const { id, name, artists, duration_ms, popularity, album } = result;
+        const { id, name, artists, duration_ms, album } = result;
+        const sep = '| ';
 
         // extract artist names from artists array
-        const artistNames = artists.map(artist => artist.name)
+        const artistNames = artists.map(artist => artist.name);
 
         return (
-            <div key={id} className="card">
-                <div className="content">
-                    <div className="header">
-                        <span>{name}</span>
+            <div key={id} className='card song-card' style={searchResultStyles.songCard}>
+                <div className='content'>
+                    <div className='header' style={searchResultStyles.songContent}>
+                        <h2>{name}</h2>
+                    </div>
+                    <div className='meta' style={searchResultStyles.songMeta}>
+                        <span>{Math.round(duration_ms / 60000)} minutes</span>
+                        {sep}
+                        <span>{artistNames.join(', ')}</span>
                     </div>
                 </div>
-                <div className="meta">
-                    <span>{artistNames.join(', ')}</span>
-                </div>
-                <div className="meta">
-                    <span>
-                        {Math.round(duration_ms / 60000)} minutes
-                        Popularity: {popularity}
-                    </span>
-                </div>
-                <div className="image">
+
+                <div className='image'>
                     <img src={album.images[1].url} alt={name} />
                 </div>
-                <div className="ui bottom attached button">
-                    <i className="add icon" />
+                <div className='ui bottom attached button' style={searchResultStyles.songButton}>
+                    <i className='add icon' />
                     Add Song
                 </div>
             </div>
@@ -38,8 +56,8 @@ const SearchResults = ({ searchResults }) => {
     });
 
     return (
-        <div className="ui cards">
-            {resultsRendered}
+        <div>
+            <div className='ui cards'>{resultsRendered}</div>
         </div>
     );
 };

@@ -1,0 +1,10 @@
+.song-card {
+    font-family: 'Roboto', 'sans-serif';
+    transition: 0.5s all !important;
+    background-color: #beb8b8;
+}
+
+.song-card:hover {
+    box-shadow: #191414 0px 0px 25px !important;
+    transform: scale(1.05) !important;
+}
