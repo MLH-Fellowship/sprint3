@@ -2,8 +2,6 @@ import React from 'react';
 import '../../styles/searchresult.css';
 
 const SearchResults = ({ searchResults }) => {
-    console.log(searchResults[0]);
-    // loop through search results (arrary)
 
     // component styles
     const searchResultStyles = {
@@ -24,6 +22,7 @@ const SearchResults = ({ searchResults }) => {
         },
     };
 
+    // loop through search results (arrary)
     const resultsRendered = searchResults.map(result => {
         const { id, name, artists, duration_ms, album } = result;
         const sep = '| ';
@@ -57,7 +56,7 @@ const SearchResults = ({ searchResults }) => {
 
     return (
         <div>
-            <div className='ui cards'>{resultsRendered}</div>
+            <div className='ui four cards'>{resultsRendered}</div>
         </div>
     );
 };

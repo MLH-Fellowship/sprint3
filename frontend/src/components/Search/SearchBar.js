@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 
-const SearchBar = ({ search }) => {
-    // state for search term
-    const [searchTerm, setSearchTerm] = useState('');
-
+const SearchBar = ({ searchTerm, setSearchTerm, search }) => {
+    
     // function for when search is submitted
     const onFormSubmit = event => {
         // prevent page from reloading

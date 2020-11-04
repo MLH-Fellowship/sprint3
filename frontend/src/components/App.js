@@ -6,10 +6,12 @@ import SearchResults from './Search/SearchResults';
 
 const App = () => {
 
-        // state for search results as a result of search function
-        const [searchResults, setSearchResults] = useState([]);
+    // state for search results as a result of search function
+    const [searchResults, setSearchResults] = useState([]);
 
-
+    // state for search term
+    const [searchTerm, setSearchTerm] = useState('');
+ 
     // function to search for a term (used in SearchBar component)
     // also used to update search results component
     const search = async (term) => {
@@ -20,9 +22,8 @@ const App = () => {
 
 
     return (
-        <div>
-            APP
-            <SearchBar search={search} />
+        <div className="ui container">
+            <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} search={search} />
             <SearchResults searchResults={searchResults} />
         </div>
     );
