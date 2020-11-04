@@ -28,16 +28,22 @@ const App = () => {
 
     // function to add song to library
     // also 
-    const addTrack = (track) => {
+    const addTrack = track => {
         setLibrary([...library, track]);
-    }
+    };
+
+    // function to remove song from library
+    const removeTrack = track => {
+        const { id } = track;
+        setLibrary(library.filter(track => track.id !== id));
+    };
 
     
 
 
     return (
         <div className="ui container">
-            <Library library={library} />
+            <Library library={library} removeTrack={removeTrack} />
             <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} search={search} />
             <SearchResults searchResults={searchResults} addTrack={addTrack} />
         </div>
