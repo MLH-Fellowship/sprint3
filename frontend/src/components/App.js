@@ -45,7 +45,7 @@ const App = () => {
         <div className="ui container">
             <Library library={library} removeTrack={removeTrack} />
             <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} search={search} />
-            <SearchResults searchResults={searchResults} addTrack={addTrack} />
+            <SearchResults searchResults={searchResults} addTrack={addTrack} library={library} />
         </div>
     );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../styles/searchresult.css';
 
-const SearchResults = ({ searchResults, addTrack }) => {
+const SearchResults = ({ searchResults, addTrack, library }) => {
 
     // component styles
     const searchResultStyles = {
@@ -30,6 +30,9 @@ const SearchResults = ({ searchResults, addTrack }) => {
         // extract artist names from artists array
         const artistNames = artists.map(artist => artist.name);
 
+        // logic to disable 'add' button if song is already in library
+        const disabled = library.map(track => track.id).includes(id) ? 'disabled' : '';
+
         return (
             <div key={id} className='card song-card' style={searchResultStyles.songCard}>
                 <div className='content'>
@@ -46,13 +49,17 @@ const SearchResults = ({ searchResults, addTrack }) => {
                 <div className='image'>
                     <img src={album.images[1].url} alt={name} />
                 </div>
-                <div className='ui bottom attached button' 
+                {/*<div className='ui bottom attached button' 
                     style={searchResultStyles.songButton}
                     onClick={() => addTrack(result)}
                 >
                     <i className='add icon' />
                     Add Song
-                </div>
+                </div>*/}
+                <button className={`ui positive ${disabled} button`} onClick={() => addTrack(result)}>
+                    <i className="add icon" />
+                    Add Track
+                </button>
             </div>
         );
     });
