@@ -15,7 +15,9 @@ const App = () => {
     const [searchTerm, setSearchTerm] = useState('');
     // state for library
     const [library, setLibrary] = useState([]);
- 
+    
+    // FUNCTIONS
+
     // function to search for a term (used in SearchBar component)
     // also used to update search results component
     const search = async (term) => {
@@ -24,6 +26,12 @@ const App = () => {
         setSearchResults(response.data.tracks.items);
     };
 
+    // function to add song to library
+    // also 
+    const addTrack = (track) => {
+        setLibrary([...library, track]);
+    }
+
     
 
 
@@ -31,7 +39,7 @@ const App = () => {
         <div className="ui container">
             <Library library={library} />
             <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} search={search} />
-            <SearchResults searchResults={searchResults} />
+            <SearchResults searchResults={searchResults} addTrack={addTrack} />
         </div>
     );
 };

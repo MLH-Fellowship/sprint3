@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../styles/searchresult.css';
 
-const SearchResults = ({ searchResults }) => {
+const SearchResults = ({ searchResults, addTrack }) => {
 
     // component styles
     const searchResultStyles = {
@@ -46,7 +46,10 @@ const SearchResults = ({ searchResults }) => {
                 <div className='image'>
                     <img src={album.images[1].url} alt={name} />
                 </div>
-                <div className='ui bottom attached button' style={searchResultStyles.songButton}>
+                <div className='ui bottom attached button' 
+                    style={searchResultStyles.songButton}
+                    onClick={() => addTrack(result)}
+                >
                     <i className='add icon' />
                     Add Song
                 </div>
