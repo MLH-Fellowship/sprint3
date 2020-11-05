@@ -26,8 +26,17 @@ const App = () => {
         setSearchResults(response.data.tracks.items);
     };
 
+    // function to obtain 'audio features' for a song (given an id)
+    const getAudioFeatures = async (id) => {
+        // make request to backend
+        const response = await backend.get(`/audio-features/${id}`);
+        // store data in object
+        const audioFeaturesObj = {'audioFeatures': response.data.data[0]};
+        // return object
+        console.log(audioFeaturesObj);
+    }
+
     // function to add song to library
-    // also 
     const addTrack = track => {
         setLibrary([...library, track]);
     };

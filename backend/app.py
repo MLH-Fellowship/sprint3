@@ -48,7 +48,6 @@ def getAudioAnalysis(id):
 
 @app.route('/audio-features/<string:id>', methods=['GET'])
 def getAudioFeatures(id):
-    #uri = f"spotify:track:{id}"
     audio_features = sp.audio_features(id)
     return {'data': audio_features}
 
