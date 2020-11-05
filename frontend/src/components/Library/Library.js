@@ -13,7 +13,7 @@ const Library = ({ library, removeTrack }) => {
             <React.Fragment key={id}>
                 <tr>
                     <td>{name}</td>
-                    <td>{artistNames}</td>
+                    <td>{artistNames.join(', ')}</td>
                     <td>{Math.round(duration_ms/60000)} minutes</td>
                     <td>{audioFeatures}</td>
                     <td>
