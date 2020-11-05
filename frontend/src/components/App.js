@@ -38,6 +38,9 @@ const App = () => {
 
     // function to add song to library
     const addTrack = track => {
+        const { id } = track;
+        // get audio features
+        getAudioFeatures(id);
         setLibrary([...library, track]);
     };
 
