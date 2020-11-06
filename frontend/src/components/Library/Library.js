@@ -2,6 +2,11 @@ import React from 'react';
 
 const Library = ({ library, removeTrack }) => {
 
+    // message for when there are no songs in library
+    if (library.length === 0) {
+        return "You don't have any songs in your library. Head over the the 'Search' tab to start adding songs.";
+    }
+
     // loop through tracks to create elements for rendering
     const tracksRendered = library.map(track => {
         const { id, name, artists, duration_ms, audioFeatures } = track;

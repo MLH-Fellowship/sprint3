@@ -15,6 +15,9 @@ const App = () => {
     const [searchTerm, setSearchTerm] = useState('');
     // state for library
     const [library, setLibrary] = useState([]);
+    // state for tabs
+    const tabs = ['Library', 'Search'];
+    const [tabSelected, setTabSelected] = useState(tabs[0]);
     
     // FUNCTIONS
 
@@ -55,13 +58,50 @@ const App = () => {
     };
 
     
+    // tab setup
+    
 
+    const tabsRendered = tabs.map(tab => {
+        const active = tab === tabSelected ? 'active' : '';
+        return (
+            <div key={tab}
+                className={`${active} item`}
+                style={{'cursor': 'pointer'}}
+                onClick={() => setTabSelected(tab)}
+            >
+                {tab}
+            </div>
+        )
+    });
+
+    // conditionally render tab
+    const tabComponentRendered = (tab) => {
+        switch (tab) {
+            case 'Library':
+                return (
+                    <Library library={library} removeTrack={removeTrack} />  
+                );
+            case 'Search':
+                return (
+                    <>
+                        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} search={search} />
+                        <SearchResults searchResults={searchResults} addTrack={addTrack} library={library} />
+                    </>
+                )
+            default:
+                return null;
+        };
+    };
 
     return (
         <div className="ui container">
-            <Library library={library} removeTrack={removeTrack} />
-            <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} search={search} />
-            <SearchResults searchResults={searchResults} addTrack={addTrack} library={library} />
+            <div className="ui top attached tabular menu">
+                {tabsRendered}
+            </div>
+            {tabComponentRendered(tabSelected)}
+            {/*<Library library={library} removeTrack={removeTrack} />*/}
+            {/*<SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} search={search} />*/}
+            {/*<SearchResults searchResults={searchResults} addTrack={addTrack} library={library} />*/}
         </div>
     );
 };
