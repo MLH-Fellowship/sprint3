@@ -33,15 +33,19 @@ const App = () => {
         // store data in object
         const audioFeaturesObj = {'audioFeatures': response.data.data[0]};
         // return object
-        console.log(audioFeaturesObj);
+        return audioFeaturesObj;
     }
 
     // function to add song to library
-    const addTrack = track => {
+    // to reduce API call, audio features (another API request) is only made when track is added to library
+    const addTrack = async (track) => {
         const { id } = track;
         // get audio features
-        getAudioFeatures(id);
-        setLibrary([...library, track]);
+        const audioFeatures = await getAudioFeatures(id);
+        // add to track obj
+        const trackNew = {...track, ...audioFeatures};
+        // add to library
+        setLibrary([...library, trackNew]);
     };
 
     // function to remove song from library
