@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import backend from '../api/backend';
 
 import Library from './Library/Library';
+import Playlists from './Library/Playlists';
 import SearchBar from './Search/SearchBar';
 import SearchResults from './Search/SearchResults';
 
@@ -16,7 +17,7 @@ const App = () => {
     // state for library
     const [library, setLibrary] = useState([]);
     // state for tabs
-    const tabs = ['Library', 'Search'];
+    const tabs = ['Library', 'Search', 'Playlists'];
     const [tabSelected, setTabSelected] = useState(tabs[0]);
     
     // FUNCTIONS
@@ -87,7 +88,11 @@ const App = () => {
                         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} search={search} />
                         <SearchResults searchResults={searchResults} addTrack={addTrack} library={library} />
                     </>
-                )
+                );
+            case 'Playlists':
+                return (
+                    <Playlists library={library} />
+                );
             default:
                 return null;
         };
