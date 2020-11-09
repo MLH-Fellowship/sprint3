@@ -39,18 +39,16 @@ def search(term):
     search_results = sp.search(q=term, type='track', limit=20)
     return search_results
 
-# 62zFEHfAYl5kdHYOivj4BC
-# 6sbXGUn9V9ZaLwLdOfpKRE
-@app.route('/audio-analysis/<string:id>', methods=['GET'])
-def getAudioAnalysis(id):
-    audio_analysis = sp.audio_analysis(id)
-    return audio_analysis
+
 
 @app.route('/audio-features/<string:id>', methods=['GET'])
 def getAudioFeatures(id):
     audio_features = sp.audio_features(id)
     return {'data': audio_features}
 
+@app.route('/generate-playlists', methods=['GET'])
+def generatePlaylists():
+    return 'GENERATED'
 
 if __name__ == "__main__":
     app.run(debug=True)

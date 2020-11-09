@@ -1,9 +1,11 @@
 import React from 'react';
+import backend from '../../api/backend';
 
 const Playlists = ({ library }) => {
     
-    const generatePlaylists = () => {
-        console.log('GENERATED');
+    const generatePlaylists = async () => {
+        const response = await backend.get(`/generate-playlists`);
+        console.log(response);
     };
 
     return (
