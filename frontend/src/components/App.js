@@ -86,7 +86,7 @@ const App = () => {
                 return (
                     <>
                         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} search={search} />
-                        <SearchResults searchResults={searchResults} addTrack={addTrack} library={library} />
+                        <SearchResults searchResults={searchResults} addTrack={addTrack} removeTrack={removeTrack} library={library} />
                     </>
                 );
             case 'Playlists':

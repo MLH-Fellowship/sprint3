@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../styles/searchresult.css';
 
-const SearchResults = ({ searchResults, addTrack, library }) => {
+const SearchResults = ({ searchResults, addTrack, removeTrack, library }) => {
 
     // component styles
     const searchResultStyles = {
@@ -30,8 +30,14 @@ const SearchResults = ({ searchResults, addTrack, library }) => {
         // extract artist names from artists array
         const artistNames = artists.map(artist => artist.name);
 
-        // logic to disable 'add' button if song is already in library
-        const disabled = library.map(track => track.id).includes(id) ? 'disabled' : '';
+        // boolean for whether or not song is in library
+        const isInLibrary = library.map(track => track.id).includes(id);
+        // logic for button properties
+        const buttonObj = {};
+        buttonObj['sign'] = isInLibrary ? 'negative' : 'positive';
+        buttonObj['func'] = isInLibrary ? removeTrack : addTrack;
+        buttonObj['icon'] = isInLibrary ? 'minus' : 'add';
+        buttonObj['label'] = isInLibrary ? 'Remove' : 'Add';
 
         return (
             <div key={id} className='card song-card' style={searchResultStyles.songCard}>
@@ -49,16 +55,9 @@ const SearchResults = ({ searchResults, addTrack, library }) => {
                 <div className='image'>
                     <img src={album.images[1].url} alt={name} />
                 </div>
-                {/*<div className='ui bottom attached button' 
-                    style={searchResultStyles.songButton}
-                    onClick={() => addTrack(result)}
-                >
-                    <i className='add icon' />
-                    Add Song
-                </div>*/}
-                <button className={`ui positive ${disabled} button`} onClick={() => addTrack(result)}>
-                    <i className="add icon" />
-                    Add Track
+                <button className={`ui ${buttonObj['sign']} button`} onClick={() => buttonObj['func'](result)}>
+                    <i className={`${buttonObj['icon']} icon`} />
+                    {`${buttonObj['label']} Track`}
                 </button>
             </div>
         );
