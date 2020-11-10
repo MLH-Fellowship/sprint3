@@ -17,6 +17,17 @@ const SearchResults = ({ searchResults, addTrack, removeTrack, library }) => {
         return library.map(t => t.id).includes(id);
     }
 
+    // function to handle checking/unchecking of checkbox
+    const handleCheckbox = (checked, track) => {
+        // if checkbox is checked, add to tracksToTrack
+        if (checked) {
+            setTracksToTrack([...tracksToTrack, track]);
+        } else {
+            // else remove it
+           setTracksToTrack(tracksToTrack.filter(t => t.id !== track.id))
+        }
+    };
+
     
     // loop through tracks to create elements for rendering
     const tracksRendered = searchResults.map(track => {
@@ -46,8 +57,8 @@ const SearchResults = ({ searchResults, addTrack, removeTrack, library }) => {
                     <td>
                         <input 
                             type="checkbox"
-                            checked={false}
                             disabled={disableCheckbox(track)}
+                            onChange = {(e) => handleCheckbox(e.target.checked, track)}
                         />
                     </td>
                     <td>
