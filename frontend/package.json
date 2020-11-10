@@ -14,9 +14,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "activate-backend-env": "cd ../backend/venv/Scripts && activate",
-    "run-backend": "cd ../backend && python app.py",
-    "start-backend": "concurrently \"npm run activate-backend-env\" \"npm run run-backend\"",
+    "start-backend": "cd ../backend/venv/Scripts && flask run",
     "start-full": "concurrently \"npm start\" \"npm run start-backend\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
