@@ -9,7 +9,7 @@
 #### IMPORT
 import os
 from dotenv import load_dotenv
-from flask import Flask, redirect
+from flask import Flask, redirect, request
 from flask_cors import CORS 
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
@@ -46,9 +46,10 @@ def getAudioFeatures(id):
     audio_features = sp.audio_features(id)
     return {'data': audio_features}
 
-@app.route('/generate-playlists', methods=['GET'])
+@app.route('/generate-playlists', methods=['POST'])
 def generatePlaylists():
-    return 'GENERATED'
+    data = request.get_json()
+    return data
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -4,7 +4,8 @@ import backend from '../../api/backend';
 const Playlists = ({ library }) => {
     
     const generatePlaylists = async () => {
-        const response = await backend.get(`/generate-playlists`);
+        const options = { tracks: library }
+        const response = await backend.post(`/generate-playlists`, options);
         console.log(response);
     };
 
