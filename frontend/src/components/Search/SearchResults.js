@@ -3,9 +3,17 @@ import '../../styles/searchresult.css';
 
 const SearchResults = ({ searchResults, setSearchResults, addTrack, removeTrack, library, setLibrary }) => {
 
+    // state for select all checkbox
+    const [selectAllCheckbox, setSelectAllCheckbox] = useState(false);
+
+    // function that checks if track is in library
+    const isInLibrary = (track) => {
+        const { id } = track;
+        return library.map(t => t.id).includes(id);
+    }
 
     // function to update checkbox checked value (for a track)
-    const handleCheckbox = (track) => {
+    const toggleCheckbox = (track) => {
         const { id } = track;
         setSearchResults(searchResults.map(result => {
             // if track is the one that was clicked, change its checked value
@@ -22,9 +30,33 @@ const SearchResults = ({ searchResults, setSearchResults, addTrack, removeTrack,
         setSearchResults(searchResults.map(result => {
             result.checked = checkedValue;
             return result;
-        }))
-        
-    }
+        }));
+        setSelectAllCheckbox(checkedValue);
+    };
+
+    // function to add all checked songs to library
+    const addTracksToLibrary = () => {
+        // get all tracks that have been checked
+        const tracksChecked = searchResults.filter(track => track.checked);
+        // filter out any tracks that are already in library
+        const tracksFiltered = tracksChecked.filter(track => !isInLibrary(track));
+        // add to library
+        setLibrary([...library, ...tracksFiltered]);
+        // uncheck all boxes
+        handleSelectAll(false);
+    };
+
+    // function to remove all checked songs from library
+    const removeTracksfromLibrary = () => {
+        // get all tracks that have been checked
+        const tracksChecked = searchResults.filter(track => track.checked);
+        // remove from library
+        setLibrary(library.filter(libTrack => {
+            return tracksChecked.map(t => t.id).includes(libTrack.id) === false;
+        }));
+        // uncheck all boxes
+        handleSelectAll(false);
+    };
 
     
 
@@ -43,12 +75,12 @@ const SearchResults = ({ searchResults, setSearchResults, addTrack, removeTrack,
          const duration_label = `${duration_minutes}:${duration_seconds_pad}${duration_seconds}`;
 
         // boolean for whether or not song is in library
-        const isInLibrary = library.map(track => track.id).includes(id);
+        const inLibrary = isInLibrary(track);
         // logic for button properties
         const buttonObj = {};
-        buttonObj['sign'] = isInLibrary ? 'negative' : 'positive';
-        buttonObj['func'] = isInLibrary ? removeTrack : addTrack;
-        buttonObj['icon'] = isInLibrary ? 'minus' : 'add';
+        buttonObj['sign'] = inLibrary ? 'negative' : 'positive';
+        buttonObj['func'] = inLibrary ? removeTrack : addTrack;
+        buttonObj['icon'] = inLibrary ? 'minus' : 'add';
 
         return (
             <React.Fragment key={id}>
@@ -57,7 +89,8 @@ const SearchResults = ({ searchResults, setSearchResults, addTrack, removeTrack,
                         <input 
                             type="checkbox"
                             checked={checked}
-                            onChange={() => handleCheckbox(track)}
+                            disabled={isInLibrary(track)}
+                            onChange={() => toggleCheckbox(track)}
                         />
                     </td>
                     {/*<td>
@@ -81,14 +114,15 @@ const SearchResults = ({ searchResults, setSearchResults, addTrack, removeTrack,
 
     return (
         <div>
-            <button>Add to Library</button>
-            <button>Remove from Library</button>
+            <button onClick={addTracksToLibrary}>Add to Library</button>
+            <button onClick={removeTracksfromLibrary}>Remove from Library</button>
             <table className="ui celled table">
                 <thead>
                     <tr>
                         <th>
                             <input 
                                 type="checkbox"
+                                checked={selectAllCheckbox}
                                 onChange={(e) => handleSelectAll(e.target.checked)}
                             /> Select All
                         </th>
