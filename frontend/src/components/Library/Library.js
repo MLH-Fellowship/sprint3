@@ -20,7 +20,7 @@ const Library = ({ library, removeTrack }) => {
                     <td>{name}</td>
                     <td>{artistNames.join(', ')}</td>
                     <td>{Math.round(duration_ms/60000)} minutes</td>
-                    <td>{JSON.stringify(audioFeatures)}</td>
+                    {/*<td>{JSON.stringify(audioFeatures)}</td>*/}
                     <td>
                         <button 
                             className="ui mini negative icon button"
@@ -41,7 +41,7 @@ const Library = ({ library, removeTrack }) => {
                     <th>Name</th>
                     <th>Artist(s)</th>
                     <th>Duration</th>
-                    <th>Audio Features</th>
+                    {/*<th>Audio Features</th>*/}
                 </tr>
             </thead>
             <tbody>

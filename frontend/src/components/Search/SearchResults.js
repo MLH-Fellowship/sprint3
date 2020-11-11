@@ -1,37 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../styles/searchresult.css';
 
-const SearchResults = ({ searchResults, addTrack, removeTrack, library }) => {
+const SearchResults = ({ searchResults, setSearchResults, addTrack, removeTrack, library, setLibrary }) => {
 
-    // state for songs to be added to/deleted from library
-    const [tracksToTrack, setTracksToTrack] = useState([]);
 
-    // state for 'select all' checkbox
-    const [isCheckedSelectAll, setIsCheckedSelectAll] = useState(false);
-    // text to display for select/deselect
-    const selectAllText = isCheckedSelectAll ? 'Deselect All' : 'Select All';
-
-    // function to disable checkbox if track already in library
-    const disableCheckbox = track => {
+    // function to update checkbox checked value (for a track)
+    const handleCheckbox = (track) => {
         const { id } = track;
-        return library.map(t => t.id).includes(id);
-    }
-
-    // function to handle checking/unchecking of checkbox
-    const handleCheckbox = (checked, track) => {
-        // if checkbox is checked, add to tracksToTrack
-        if (checked) {
-            setTracksToTrack([...tracksToTrack, track]);
-        } else {
-            // else remove it
-           setTracksToTrack(tracksToTrack.filter(t => t.id !== track.id))
-        }
+        setSearchResults(searchResults.map(result => {
+            // if track is the one that was clicked, change its checked value
+            if (result.id === id) {
+                result.checked = !result.checked;
+            };
+            return result
+        }))
     };
 
+    // function to handle select all checkbox
+    const handleSelectAll = (checkedValue) => {
+        // if true, set all checkboxes to checked, else uncheck
+        setSearchResults(searchResults.map(result => {
+            result.checked = checkedValue;
+            return result;
+        }))
+        
+    }
+
     
+
     // loop through tracks to create elements for rendering
     const tracksRendered = searchResults.map(track => {
-        const { id, name, artists, duration_ms, audioFeatures } = track;
+        const { id, name, artists, duration_ms, checked, audioFeatures } = track;
 
          // extract artist names from artists array
          const artistNames = artists.map(artist => artist.name);
@@ -57,18 +56,18 @@ const SearchResults = ({ searchResults, addTrack, removeTrack, library }) => {
                     <td>
                         <input 
                             type="checkbox"
-                            disabled={disableCheckbox(track)}
-                            onChange = {(e) => handleCheckbox(e.target.checked, track)}
+                            checked={checked}
+                            onChange={() => handleCheckbox(track)}
                         />
                     </td>
-                    <td>
+                    {/*<td>
                         <button 
                             className={`ui ${buttonObj['sign']} icon button`} 
                             onClick={() => buttonObj['func'](track)}
                         >
                             <i className={`${buttonObj['icon']} icon`} />
                         </button>
-                    </td>
+                    </td>*/}
                     <td>{name}</td>
                     <td>{artistString}</td>
                     <td>{duration_label}</td>
@@ -90,10 +89,10 @@ const SearchResults = ({ searchResults, addTrack, removeTrack, library }) => {
                         <th>
                             <input 
                                 type="checkbox"
-                                onChange={() => setIsCheckedSelectAll(!isCheckedSelectAll)}
-                            /> {selectAllText}
+                                onChange={(e) => handleSelectAll(e.target.checked)}
+                            /> Select All
                         </th>
-                        <th>Add/Remove</th>
+                        {/*<th>Add/Remove</th>*/}
                         <th>Name</th>
                         <th>Artist(s)</th>
                         <th>Duration</th>

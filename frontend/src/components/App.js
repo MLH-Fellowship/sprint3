@@ -27,7 +27,11 @@ const App = () => {
     const search = async (term) => {
         // make request to backend
         const response = await backend.get(`/search/${term}`);
-        setSearchResults(response.data.tracks.items);
+        const results = response.data.tracks.items;
+        // add checked boolean (for checkbox)
+        setSearchResults(results.map(result => {
+            return {checked: false, ...result}
+        }));
     };
 
     // function to obtain 'audio features' for a song (given an id)
@@ -86,7 +90,14 @@ const App = () => {
                 return (
                     <>
                         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} search={search} />
-                        <SearchResults searchResults={searchResults} addTrack={addTrack} removeTrack={removeTrack} library={library} />
+                        <SearchResults 
+                            searchResults={searchResults}
+                            setSearchResults={setSearchResults}
+                            addTrack={addTrack}
+                            removeTrack={removeTrack}
+                            library={library}
+                            setLibrary={setLibrary}
+                        />
                     </>
                 );
             case 'Playlists':
