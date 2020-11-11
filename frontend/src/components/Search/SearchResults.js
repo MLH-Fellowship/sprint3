@@ -89,23 +89,20 @@ const SearchResults = ({ searchResults, setSearchResults, addTrack, removeTrack,
                         <input 
                             type="checkbox"
                             checked={checked}
-                            disabled={isInLibrary(track)}
                             onChange={() => toggleCheckbox(track)}
                         />
                     </td>
-                    {/*<td>
+                    <td>
                         <button 
-                            className={`ui ${buttonObj['sign']} icon button`} 
+                            className={`ui mini ${buttonObj['sign']} icon button`} 
                             onClick={() => buttonObj['func'](track)}
                         >
                             <i className={`${buttonObj['icon']} icon`} />
                         </button>
-                    </td>*/}
+                    </td>
                     <td>{name}</td>
                     <td>{artistString}</td>
-                    <td>{duration_label}</td>
-                    {/*<td>{JSON.stringify(audioFeatures)}</td>*/}
-                   
+                    <td>{duration_label}</td>                   
                 </tr>
             </React.Fragment>
         )
@@ -114,8 +111,18 @@ const SearchResults = ({ searchResults, setSearchResults, addTrack, removeTrack,
 
     return (
         <div>
-            <button onClick={addTracksToLibrary}>Add to Library</button>
-            <button onClick={removeTracksfromLibrary}>Remove from Library</button>
+            <button 
+                className="ui positive button"
+                onClick={addTracksToLibrary}
+            >
+                Add to Library
+            </button>
+            <button 
+                className="ui negative button"
+                onClick={removeTracksfromLibrary}
+            >
+                Remove from Library
+            </button>
             <table className="ui celled table">
                 <thead>
                     <tr>
@@ -124,9 +131,9 @@ const SearchResults = ({ searchResults, setSearchResults, addTrack, removeTrack,
                                 type="checkbox"
                                 checked={selectAllCheckbox}
                                 onChange={(e) => handleSelectAll(e.target.checked)}
-                            /> Select All
+                            /> {selectAllCheckbox ? 'Deselect All' : 'Select All'}
                         </th>
-                        {/*<th>Add/Remove</th>*/}
+                        <th>Add/Remove</th>
                         <th>Name</th>
                         <th>Artist(s)</th>
                         <th>Duration</th>
