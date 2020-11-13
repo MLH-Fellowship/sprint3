@@ -60,7 +60,7 @@ const SearchResults = ({ searchResults, setSearchResults, addTracks, removeTrack
 
     // loop through tracks to create elements for rendering
     const tracksRendered = searchResults.map(track => {
-        const { id, name, artists, duration_ms, checked, audioFeatures } = track;
+        const { id, name, artists, duration_ms, checked, preview_url } = track;
 
          // extract artist names from artists array
          const artistNames = artists.map(artist => artist.name);
@@ -98,6 +98,9 @@ const SearchResults = ({ searchResults, setSearchResults, addTracks, removeTrack
                             <i className={`${buttonObj['icon']} icon`} />
                         </button>
                     </td>
+                    <td>
+                        <audio controls src={preview_url}></audio>
+                    </td>
                     <td>{name}</td>
                     <td>{artistString}</td>
                     <td>{duration_label}</td>                   
@@ -132,6 +135,7 @@ const SearchResults = ({ searchResults, setSearchResults, addTracks, removeTrack
                             /> {selectAllCheckbox ? 'Deselect All' : 'Select All'}
                         </th>
                         <th>Add/Remove</th>
+                        <th>Preview</th>
                         <th>Name</th>
                         <th>Artist(s)</th>
                         <th>Duration</th>
