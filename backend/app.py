@@ -13,6 +13,10 @@ from flask import Flask, redirect, request
 from flask_cors import CORS 
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+import pandas as pd
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import MinMaxScaler
+
 
 #### APP SETUP
 app = Flask(__name__)
@@ -48,8 +52,22 @@ def getAudioFeatures(id):
 
 @app.route('/generate-playlists', methods=['POST'])
 def generatePlaylists():
+    # get data from request
     data = request.get_json()
-    return data
+    tracks = data['tracks']
+    # extract necessary data for model
+    features = ['key', 'mode', 'time_signature', 'acousticness', 'danceability', 'energy', 'instrumentalness', 'liveness', 'loudness', 'speechiness', 'valence', 'tempo']
+    for track in tracks:
+        for key in features:
+            track[key] = track['audio_features'][key]
+    print(tracks[0])
+    tracks_df = pd.DataFrame(tracks);
+    X = MinMaxScaler().fit_transform(tracks_df[features])
+    kmeans = KMeans(init="k-means++", 
+                    n_clusters=2,
+                    random_state=15).fit(X)
+    tracks_df['kmeans'] = kmeans.labels_
+    return { 'tracks': tracks_df.to_dict('records') }
 
 if __name__ == "__main__":
     app.run(debug=True)
