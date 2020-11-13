@@ -1,18 +1,9 @@
-import React, { useState } from 'react';
-import backend from '../../api/backend';
+import React from 'react';
 
-const Playlists = ({ library }) => {
+const Playlists = ({ playlists, generatePlaylists }) => {
 
-    const [tracks, setTracks] = useState([])
-    
-    const generatePlaylists = async () => {
-        const options = { tracks: library }
-        const response = await backend.post(`/generate-playlists`, options);
-        const { tracks } = response.data
-        setTracks(tracks);
-    };
 
-    const tracksRendered = tracks.map(track => {
+    const tracksRendered = playlists.map(track => {
         return (
             <li key={track.id}>{track.name} {track.kmeans}</li>
         )

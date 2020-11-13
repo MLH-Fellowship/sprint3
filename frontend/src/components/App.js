@@ -16,6 +16,8 @@ const App = () => {
     const [searchTerm, setSearchTerm] = useState('');
     // state for library
     const [library, setLibrary] = useState([]);
+    // state for playlists
+    const [playlists, setPlaylists] = useState([]);
     // state for tabs
     const tabs = ['Library', 'Search', 'Playlists'];
     const [tabSelected, setTabSelected] = useState(tabs[0]);
@@ -63,6 +65,13 @@ const App = () => {
         setLibrary(library.filter(track => tracks_ids.includes(track.id) === false));
     };
 
+    // function to make request to backend with library and generate playlists
+    const generatePlaylists = async () => {
+        const options = { tracks: library }
+        const response = await backend.post(`/generate-playlists`, options);
+        const { tracks } = response.data
+        setPlaylists(tracks);
+    };
     
     // tab setup
     
@@ -97,13 +106,12 @@ const App = () => {
                             addTracks={addTracks}
                             removeTracks={removeTracks}
                             library={library}
-                            setLibrary={setLibrary}
                         />
                     </>
                 );
             case 'Playlists':
                 return (
-                    <Playlists library={library} />
+                    <Playlists playlists={playlists} generatePlaylists={generatePlaylists} />
                 );
             default:
                 return null;
@@ -116,9 +124,6 @@ const App = () => {
                 {tabsRendered}
             </div>
             {tabComponentRendered(tabSelected)}
-            {/*<Library library={library} removeTrack={removeTrack} />*/}
-            {/*<SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} search={search} />*/}
-            {/*<SearchResults searchResults={searchResults} addTrack={addTrack} library={library} />*/}
         </div>
     );
 };
