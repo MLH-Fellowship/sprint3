@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/searchresult.css';
 
-const SearchResults = ({ searchResults, setSearchResults, addTracks, removeTracks, library, setLibrary }) => {
+const SearchResults = ({ searchResults, setSearchResults, addTracks, removeTracks, library }) => {
 
     // state for select all checkbox
     const [selectAllCheckbox, setSelectAllCheckbox] = useState(false);
@@ -41,7 +41,6 @@ const SearchResults = ({ searchResults, setSearchResults, addTracks, removeTrack
         // filter out any tracks that are already in library
         const tracksFiltered = tracksChecked.filter(track => !isInLibrary(track));
         // add to library
-        //setLibrary([...library, ...tracksFiltered]);
         addTracks(tracksFiltered)
         // uncheck all boxes
         handleSelectAll(false);
