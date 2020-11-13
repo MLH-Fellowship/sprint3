@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Library = ({ library, removeTrack }) => {
+const Library = ({ library, removeTracks }) => {
 
     // message for when there are no songs in library
     if (library.length === 0) {
@@ -24,7 +24,7 @@ const Library = ({ library, removeTrack }) => {
                     <td>
                         <button 
                             className="ui mini negative icon button"
-                            onClick={() => removeTrack(track)}
+                            onClick={() => removeTracks([track])}
                         >
                             <i className="x icon" />
                         </button>

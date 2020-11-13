@@ -34,32 +34,33 @@ const App = () => {
         }));
     };
 
-    // function to obtain 'audio features' for a song (given an id)
-    const getAudioFeatures = async (id) => {
+    // function to obtain 'audio features' for a track
+    const getAudioFeatures = async (track) => {
+        const { id } = track;
         // make request to backend
         const response = await backend.get(`/audio-features/${id}`);
         // store data in object
-        const audioFeaturesObj = {'audioFeatures': response.data.data[0]};
-        // return object
-        return audioFeaturesObj;
+        const audioFeaturesObj = {'audio_features': response.data.data[0]};
+        // return track
+        return {...track, ...audioFeaturesObj};
     }
 
-    // function to add song to library
+    // function to add songs to library
     // to reduce API call, audio features (another API request) is only made when track is added to library
-    const addTrack = async (track) => {
-        const { id } = track;
-        // get audio features
-        const audioFeatures = await getAudioFeatures(id);
-        // add to track obj
-        const trackNew = {...track, ...audioFeatures};
+    const addTracks = async (tracks) => {
+        // get audio features for all tracks
+        const promises = tracks.map(track => getAudioFeatures(track));
         // add to library
-        setLibrary([...library, trackNew]);
+        Promise.all(promises).then(values => {
+            setLibrary([...library, ...values])
+        })
     };
 
-    // function to remove song from library
-    const removeTrack = track => {
-        const { id } = track;
-        setLibrary(library.filter(track => track.id !== id));
+    // function to remove songs from library
+    const removeTracks = tracks => {
+        // get ids of tracks in list
+        const tracks_ids = tracks.map(track => track.id);
+        setLibrary(library.filter(track => tracks_ids.includes(track.id) === false));
     };
 
     
@@ -84,7 +85,7 @@ const App = () => {
         switch (tab) {
             case 'Library':
                 return (
-                    <Library library={library} removeTrack={removeTrack} />  
+                    <Library library={library} removeTracks={removeTracks} />  
                 );
             case 'Search':
                 return (
@@ -93,8 +94,8 @@ const App = () => {
                         <SearchResults 
                             searchResults={searchResults}
                             setSearchResults={setSearchResults}
-                            addTrack={addTrack}
-                            removeTrack={removeTrack}
+                            addTracks={addTracks}
+                            removeTracks={removeTracks}
                             library={library}
                             setLibrary={setLibrary}
                         />

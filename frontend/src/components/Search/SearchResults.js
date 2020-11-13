@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/searchresult.css';
 
-const SearchResults = ({ searchResults, setSearchResults, addTrack, removeTrack, library, setLibrary }) => {
+const SearchResults = ({ searchResults, setSearchResults, addTracks, removeTracks, library, setLibrary }) => {
 
     // state for select all checkbox
     const [selectAllCheckbox, setSelectAllCheckbox] = useState(false);
@@ -41,7 +41,8 @@ const SearchResults = ({ searchResults, setSearchResults, addTrack, removeTrack,
         // filter out any tracks that are already in library
         const tracksFiltered = tracksChecked.filter(track => !isInLibrary(track));
         // add to library
-        setLibrary([...library, ...tracksFiltered]);
+        //setLibrary([...library, ...tracksFiltered]);
+        addTracks(tracksFiltered)
         // uncheck all boxes
         handleSelectAll(false);
     };
@@ -51,9 +52,7 @@ const SearchResults = ({ searchResults, setSearchResults, addTrack, removeTrack,
         // get all tracks that have been checked
         const tracksChecked = searchResults.filter(track => track.checked);
         // remove from library
-        setLibrary(library.filter(libTrack => {
-            return tracksChecked.map(t => t.id).includes(libTrack.id) === false;
-        }));
+        removeTracks(tracksChecked);
         // uncheck all boxes
         handleSelectAll(false);
     };
@@ -79,7 +78,7 @@ const SearchResults = ({ searchResults, setSearchResults, addTrack, removeTrack,
         // logic for button properties
         const buttonObj = {};
         buttonObj['sign'] = inLibrary ? 'negative' : 'positive';
-        buttonObj['func'] = inLibrary ? removeTrack : addTrack;
+        buttonObj['func'] = inLibrary ? removeTracks : addTracks;
         buttonObj['icon'] = inLibrary ? 'minus' : 'add';
 
         return (
@@ -95,7 +94,7 @@ const SearchResults = ({ searchResults, setSearchResults, addTrack, removeTrack,
                     <td>
                         <button 
                             className={`ui mini ${buttonObj['sign']} icon button`} 
-                            onClick={() => buttonObj['func'](track)}
+                            onClick={() => buttonObj['func']([track])}
                         >
                             <i className={`${buttonObj['icon']} icon`} />
                         </button>
